@@ -1,0 +1,5 @@
+{
+  "python.createEnvironment.contentButton": "show",
+  "dotenv.enableAutocloaking": false,
+  "dotenv.enableSecretpeeking": false
+}
