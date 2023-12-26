@@ -1,8 +1,9 @@
 'use server'
 
 import prisma from './db'
-import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 export const getAllTasks = async () => {
   return await prisma.task.findMany({
@@ -20,6 +21,33 @@ export const createTask = async (formData) => {
     },
   })
   revalidatePath('/tasks')
+}
+
+export const createTaskCustom = async (prevState, formData) => {
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  const content = formData.get('content')
+
+  const Task = z.object({
+    content: z.string().min(5),
+  })
+
+  // some validation here
+  try {
+    Task.parse({
+      content,
+    })
+    await prisma.task.create({
+      data: {
+        content,
+      },
+    })
+    // revalidate path
+    revalidatePath('/tasks')
+    return { message: 'success' }
+  } catch (error) {
+    console.log(error)
+    return { message: 'error' }
+  }
 }
 
 export const deleteTask = async (formData) => {
