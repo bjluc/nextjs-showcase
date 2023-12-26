@@ -1,6 +1,5 @@
 import TaskFormCustom from '@/components/TaskFormCustom'
 import TaskList from '@/components/TaskList'
-
 const TasksPage = () => {
   return (
     <div className='max-w-lg'>
@@ -10,3 +9,4 @@ const TasksPage = () => {
   )
 }
 export default TasksPage
+export const dynamic = 'force-dynamic'
